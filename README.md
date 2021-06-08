@@ -11,7 +11,7 @@ ToC:
 - **[GET Request Pattern](#GET-Request-Pattern)**
 - **[POST Request Pattern](#POST-Request-Pattern)**
 - **[DELETE Request Pattern](#DELETE-Request-Pattern)**
-- **[PUT-PATCH Request Pattern](#PUT---PATCH-Request-Pattern)**
+- **[PUT PATCH Request Pattern](#PUT-PATCH-Request-Pattern)**
 
 ## Overview
 
@@ -215,7 +215,7 @@ async deleteTodo(ctx, todo) {
 
 ```
 
-# PUT-PATCH Request Pattern
+# PUT PATCH Request Pattern
 
 ```js
 async updateTodoText(ctx, todo) {
