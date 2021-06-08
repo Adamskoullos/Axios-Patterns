@@ -151,11 +151,11 @@ async fetchTodo(ctx) {
 async addTodo(ctx, newTodo) {
     try {
     await axios.post(
-        "https://dev-test-api-one.herokuapp.com/todos",
+        "URL",
         newTodo
     );
     const res = await axios(
-        "https://dev-test-api-one.herokuapp.com/todos/" + newTodo.id
+        "URL/" + newTodo.id
     );
     const newArr = [...ctx.state.todos, res.data];
     ctx.commit("setTodosData", newArr);
@@ -176,6 +176,73 @@ async addTodo(ctx, newTodo) {
         console.log(error.toJSON);
     }
     }
+},
+
+```
+
+# DELETE Request Pattern
+
+```js
+async deleteTodo(ctx, todo) {
+    try {
+    await axios.delete(
+        "https://dev-test-api-one.herokuapp.com/todos/" + todo.id
+    );
+
+    const newArr = ctx.state.todos.filter((task) => task.id != todo.id);
+    ctx.commit("setTodosData", newArr);
+    } catch (error) {
+    console.log(error.message);
+    if (error.request) {
+        // Code to run...
+        console.log(error.request);
+    } else if (error.response) {
+        // Code to run...
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.statusText);
+        console.log(error.response.headers);
+        console.log(error.toJSON);
+    } else {
+        // Code to run...
+        console.log(error.toJSON);
+    }
+    }
+},
+
+```
+
+# PUT/PATCH Request Pattern
+
+```js
+async updateTodoText(ctx, todo) {
+    try {
+    await axios.patch(
+        "URL/" + todo.id,
+        {
+        update: !todo.update,
+        text: todo.text,
+        complete: false,
+        }
+    );
+    ctx.dispatch("fetchSingleTodo", todo);
+    } catch (error) {
+        console.log(error.message);
+        if (error.request) {
+          // Code to run...
+          console.log(error.request);
+        } else if (error.response) {
+          // Code to run...
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.statusText);
+          console.log(error.response.headers);
+          console.log(error.toJSON);
+        } else {
+          // Code to run...
+          console.log(error.toJSON);
+        }
+      }
 },
 
 ```
