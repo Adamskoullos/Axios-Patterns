@@ -1,6 +1,14 @@
 # Axios-Patterns
 
-A quick reference guide modelling the core patterns used when utilising async/await, try/catch blocks with specific error handling provisions.
+A reference guide modelling the core patterns used when utilising async/await, try/catch blocks with specific error handling provisions when using Axios.
+
+The Axios patterns below are part of larger CRUD patterns when working with VueX.
+
+ToC:
+
+- **[Overview](#Overview)**
+- **[Error Handling Pattern](#Error-Handling-Pattern)**
+- **[GET Request Pattern](#GET-Request-Pattern)**
 
 ## Overview
 
@@ -106,33 +114,68 @@ catch (error) {
 
 ```js
 async fetchTodo(ctx) {
-      ctx.commit("setIsLoading", true);
-      ctx.commit("setError", "");
-      try {
-        const res = await axios.get(
-          "URL"
-        );
-        ctx.commit("setTodosData", res.data);
-        ctx.commit("setIsLoading", false);
-      } catch (error) {
-          console.log(error.message);
+    ctx.commit("setIsLoading", true);
+    ctx.commit("setError", "");
+    try {
+    const res = await axios.get(
+        "URL"
+    );
+    ctx.commit("setTodosData", res.data);
+    ctx.commit("setIsLoading", false);
+    } catch (error) {
+        console.log(error.message);
         if (error.request) {
-          // Code to run...
-          console.log(error.request);
+            // Code to run...
+            console.log(error.request);
         } else if (error.response) {
-          // Code to run...
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.statusText);
-          console.log(error.response.headers);
-          console.log(error.toJSON);
+        // Code to run...
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.statusText);
+            console.log(error.response.headers);
+            console.log(error.toJSON);
         } else {
-          // Code to run...
-          console.log(error.toJSON);
+            // Code to run...
+            console.log(error.toJSON);
         }
-        ctx.commit("setError", "Sorry, unable to fetch todo list at this time");
-        ctx.commit("setIsLoading", false);
-      }
-    },
+    ctx.commit("setError", "Sorry, unable to fetch todo list at this time");
+    ctx.commit("setIsLoading", false);
+    }
+},
+
+```
+
+# POST Request Pattern
+
+```js
+async addTodo(ctx, newTodo) {
+    try {
+    await axios.post(
+        "https://dev-test-api-one.herokuapp.com/todos",
+        newTodo
+    );
+    const res = await axios(
+        "https://dev-test-api-one.herokuapp.com/todos/" + newTodo.id
+    );
+    const newArr = [...ctx.state.todos, res.data];
+    ctx.commit("setTodosData", newArr);
+    } catch (error) {
+    console.log(error.message);
+    if (error.request) {
+        // Code to run...
+        console.log(error.request);
+    } else if (error.response) {
+        // Code to run...
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.statusText);
+        console.log(error.response.headers);
+        console.log(error.toJSON);
+    } else {
+        // Code to run...
+        console.log(error.toJSON);
+    }
+    }
+},
 
 ```
