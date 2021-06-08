@@ -75,6 +75,10 @@ response.request;
 
 ## Error Handling Pattern
 
+Straight out of the box Axios catches all errors and provides specific error details which simplifies error handling.
+
+The below pattern shows some of the data types that could be used to gather information about an issue:
+
 ```js
 catch(error){
     if(error.request){
@@ -84,6 +88,10 @@ catch(error){
         console.log(error.toJSON)
     }
     else if(error.response){
+        if(error.response.status === 404){
+            // Code to run...
+            console.log(error.toJSON)
+        }
         // Code to run...
         console.log(error.response.data)
         console.log(error.response.status)
@@ -97,5 +105,42 @@ catch(error){
         console.log(error.toJSON)
     }
 }
+
+```
+
+# GET Request Pattern
+
+```js
+async fetchTodo(ctx) {
+      ctx.commit("setIsLoading", true);
+      ctx.commit("setError", "");
+      try {
+        const res = await axios.get(
+          "URL"
+        );
+        ctx.commit("setTodosData", res.data);
+        ctx.commit("setIsLoading", false);
+      } catch (error) {
+        if (error.request) {
+          // Code to run...
+          console.log(error.message);
+          console.log(error.request);
+        } else if (error.response) {
+          // Code to run...
+          console.log(error.message);
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.statusText);
+          console.log(error.response.headers);
+          console.log(error.toJSON);
+        } else {
+          // Code to run...
+          console.log(error.message);
+          console.log(error.toJSON);
+        }
+        ctx.commit("setError", "Sorry, unable to fetch todo list at this time");
+        ctx.commit("setIsLoading", false);
+      }
+    },
 
 ```
