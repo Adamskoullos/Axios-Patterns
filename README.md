@@ -80,30 +80,24 @@ Straight out of the box Axios catches all errors and provides specific error det
 The below pattern shows some of the data types that could be used to gather information about an issue:
 
 ```js
-catch(error){
-    if(error.request){
+catch (error) {
+    console.log(error.message);
+    if (error.request) {
         // Code to run...
-        console.log(error.request)
-        console.log(error.message)
-        console.log(error.toJSON)
-    }
-    else if(error.response){
-        if(error.response.status === 404){
-            // Code to run...
-            console.log(error.toJSON)
-        }
+        console.log(error.request);
+    } else if (error.response) {
         // Code to run...
-        console.log(error.response.data)
-        console.log(error.response.status)
-        console.log(error.response.statusText)
-        console.log(error.response.headers)
-        console.log(error.toJSON)
-    }
-    else{
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.statusText);
+        console.log(error.response.headers);
+        console.log(error.toJSON);
+    } else {
         // Code to run...
-        console.log(error.message)
-        console.log(error.toJSON)
+        console.log(error.toJSON);
     }
+    ctx.commit("setError", "Sorry, unable to fetch todo list at this time");
+    ctx.commit("setIsLoading", false);
 }
 
 ```
@@ -121,13 +115,12 @@ async fetchTodo(ctx) {
         ctx.commit("setTodosData", res.data);
         ctx.commit("setIsLoading", false);
       } catch (error) {
+          console.log(error.message);
         if (error.request) {
           // Code to run...
-          console.log(error.message);
           console.log(error.request);
         } else if (error.response) {
           // Code to run...
-          console.log(error.message);
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.statusText);
@@ -135,7 +128,6 @@ async fetchTodo(ctx) {
           console.log(error.toJSON);
         } else {
           // Code to run...
-          console.log(error.message);
           console.log(error.toJSON);
         }
         ctx.commit("setError", "Sorry, unable to fetch todo list at this time");
