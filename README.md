@@ -9,6 +9,9 @@ ToC:
 - **[Overview](#Overview)**
 - **[Error Handling Pattern](#Error-Handling-Pattern)**
 - **[GET Request Pattern](#GET-Request-Pattern)**
+- **[POST Request Pattern](#POST-Request-Pattern)**
+- **[DELETE Request Pattern](#DELETE-Request-Pattern)**
+- **[PUT/PATCH Request Pattern](#PUT/PATCH-Request-Pattern)**
 
 ## Overview
 
