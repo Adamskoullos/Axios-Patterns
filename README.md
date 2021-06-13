@@ -189,7 +189,7 @@ async addTodo(ctx, newTodo) {
 async deleteTodo(ctx, todo) {
     try {
     await axios.delete(
-        "https://dev-test-api-one.herokuapp.com/todos/" + todo.id
+        "URL/" + todo.id
     );
 
     const newArr = ctx.state.todos.filter((task) => task.id != todo.id);
